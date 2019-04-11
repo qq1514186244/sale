@@ -1,13 +1,18 @@
 package com.newer.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.sql.Date;
 //采购单
 public class DrugList implements Serializable {
     private int dlid;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date dlcreattime;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date dlupdatetime;
     private String dlstate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date examinedate;
     private String exmessage;
     private Derpatment derpatment;

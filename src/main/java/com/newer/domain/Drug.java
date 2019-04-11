@@ -1,25 +1,38 @@
 package com.newer.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.sql.Date;
 
 public class Drug implements Serializable {
     private int did;
+    private int sid;
     private String dname;
     private Double dprice;
     private String dmessage;
     private String dwh;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date dwhdate;
     private String dstate;
     private String dpackge;
     private String ddosage;
     private String dtype;
     private String dreport;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date dreportdate;
     private Supplier supplier;
 
     public int getDid() {
         return did;
+    }
+
+    public int getSid() {
+        return sid;
+    }
+
+    public void setSid(int sid) {
+        this.sid = sid;
     }
 
     public void setDid(int did) {

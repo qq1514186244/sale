@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.newer.mapper.DerpatmentMapper">
+
+    <resultMap id="derpatment1" type="Clinic">
+        <id property="cid" column="cid"/>
+        <result property="cname" column="cname"/>
+        <result property="caddress" column="caddress"/>
+        <association property="derpatment" javaType="com.newer.domain.Derpatment">
+            <id property="dpid" column="dpid"/>
+            <result property="dpname" column="dpname"/>
+            <result property="dpaddress" column="dpaddress"/>
+        </association>
+    </resultMap>
+    <select id="findAllClinic" resultMap="derpatment1">
+           select c.cid,cname,caddress,dpname,dpaddress from aaderpatment d
+           right join aaclinic c on d.dpid=c.dpid where d.dpid=#{dpid}
+    </select>
+
+    <resultMap id="derpatment2" type="DrugList">
+        <id property="dlid" column="dlid"/>
+        <result property="dlcreattime" column="dlcreattime"/>
+        <result property="dlupdatetime" column="dlupdatetime"/>
+        <result property="dlstate" column="dlstate"/>
+        <result property="examinedate" column="examinedate"/>
+        <result property="exmessage" column="exmessage"/>
+        <association property="clinic" javaType="com.newer.domain.Clinic">
+            <id property="cid" column="cid"/>
+            <result property="cname" column="cname"/>
+        </association>
+        <association property="derpatment" javaType="com.newer.domain.Derpatment">
+            <id property="dpid" column="dpid"/>
+            <result property="dpname" column="dpname"/>
+        </association>
+    </resultMap>
+    <select id="findAllDrugList" resultMap="derpatment2">
+          select dlid,dlcreattime,dlupdatetime,dlstate,examinedate,exmessage,c.cname,d.dpname
+          from aaderpatment d left join aaclinic c on d.dpid=c.dpid left join aadrugList dl on c.dpid=dl.pid where dl.cid=#{cid}
+    </select>
+
+    <resultMap id="derpatment3" type="Drug">
+        <id property="did" column="did"/>
+        <result property="sid" column="sid"/>
+        <result property="dname" column="dname"/>
+        <result property="dprice" column="dprice"/>
+        <result property="dmessage" column="dmessage"/>
+        <result property="dwh" column="dwh"/>
+        <result property="dwhdate" column="dwhdate"/>
+        <result property="dstate" column="dstate"/>
+        <result property="dpackge" column="dpackge"/>
+        <result property="ddosage" column="ddosage"/>
+        <result property="dtype" column="dtype"/>
+        <result property="dreport" column="dreport"/>
+        <result property="dreportdate" column="dreportdate"/>
+        <association property="supplier" javaType="com.newer.domain.Supplier">
+            <id property="sid" column="sid"/>
+            <result property="sname" column="sname"/>
+        </association>
+    </resultMap>
+    <select id="findAllDrug" resultMap="derpatment3">
+          select did,s.sid,dname,dprice,dmessage,dwh,dwhdate,dstate,dpackge,ddosage,dtype,dreport,dreportdate,sname
+          from aadrug d left join aasupplier s on d.sid=s.sid where s.sid=#{sid}
+    </select>
+</mapper>
