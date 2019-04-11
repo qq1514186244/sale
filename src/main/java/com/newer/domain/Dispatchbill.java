@@ -1,12 +1,16 @@
 package com.newer.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.sql.Date;
 //发货单
 public class Dispatchbill implements Serializable {
     private int dbid;
+
     private Supplier supplier;
     private String dbstate;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:MM:ss",timezone = "GMT+8")
     private Date dbdate;
     private String dbwl;
     private String dbwldh;

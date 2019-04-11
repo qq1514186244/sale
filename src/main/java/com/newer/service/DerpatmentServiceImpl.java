@@ -1,9 +1,6 @@
 package com.newer.service;
 
-import com.newer.domain.Clinic;
-import com.newer.domain.Drug;
-import com.newer.domain.DrugList;
-import com.newer.domain.Supplier;
+import com.newer.domain.*;
 import com.newer.mapper.DerpatmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +32,25 @@ public class DerpatmentServiceImpl implements DerpatmentService {
     @Override
     public List<Drug> findAllDrug(int sid) {
         return derpatmentMapper.findAllDrug(sid);
+    }
+
+    @Override
+    public List<Dispatchbill> findAllDispatchbill() {
+        return derpatmentMapper.findAllDispatchbill();
+    }
+
+    @Override
+    public List<Dispatchbill> findDispatchbill(String dbstate) {
+        return derpatmentMapper.findDispatchbill(dbstate);
+    }
+
+    @Override
+    public int updateDispatchbill(Dispatchbill dispatchbill) {
+        return derpatmentMapper.updateDispatchbill(dispatchbill);
+    }
+
+    @Override
+    public Dispatchbill findByDbid(int dbid) {
+        return derpatmentMapper.findByDbid(dbid);
     }
 }

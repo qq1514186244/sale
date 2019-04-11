@@ -64,4 +64,21 @@
           select did,s.sid,dname,dprice,dmessage,dwh,dwhdate,dstate,dpackge,ddosage,dtype,dreport,dreportdate,sname
           from aadrug d left join aasupplier s on d.sid=s.sid where s.sid=#{sid}
     </select>
+
+
+    <resultMap id="derpatment4" type="Dispatchbill">
+        <id property="dbid" column="dbid"/>
+        <result property="dbstate" column="dbstate"/>
+        <result property="dbdate" column="dbdate"/>
+        <result property="dbwl" column="dbwl"/>
+        <result property="dbwldh" column="dbwldh"/>
+        <association property="supplier" javaType="com.newer.domain.Supplier">
+            <id property="sid" column="sid"/>
+            <result property="sname" column="sname"/>
+        </association>
+    </resultMap>
+    <select id="findDispatchbill" resultMap="derpatment4">
+          select dbid,s.sid,dbstate,dbdate,dbwl,dbwldh,s.sname
+          from aadispatchbill d left join aasupplier s on d.dpid=s.sid where d.dbstate=#{dbstate}
+    </select>
 </mapper>

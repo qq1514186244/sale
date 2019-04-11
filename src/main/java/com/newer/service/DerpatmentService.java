@@ -1,9 +1,6 @@
 package com.newer.service;
 
-import com.newer.domain.Clinic;
-import com.newer.domain.Drug;
-import com.newer.domain.DrugList;
-import com.newer.domain.Supplier;
+import com.newer.domain.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +12,11 @@ public interface DerpatmentService {
     List<Supplier> findAllSupplier();
 
     List<Drug> findAllDrug(int sid);
+
+    List<Dispatchbill>  findAllDispatchbill();
+
+    List<Dispatchbill>  findDispatchbill(String dbstate);
+
+    int updateDispatchbill(Dispatchbill dispatchbill);
+    Dispatchbill findByDbid(int dbid);
 }

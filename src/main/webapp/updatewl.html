@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="Bookmark" href="/favicon.ico" >
+    <link rel="Shortcut Icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="static/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+
+    <title>物流信息修改</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 物流信息管理 <span class="c-gray en">&gt;</span> 物流信息列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <form method="post" id="form1">
+        <p><input type="hidden" name="dbid" id="dbid"></p>
+        <p>发货状态:
+            <select name="dbstate" id="dbstate">
+                <option value="已发货" selected>已发货</option>
+                <option value="未发货">未发货</option>
+            </select>
+        </p>
+
+        <p>发货快递:
+            <select id="dbwl" name="dbwl">
+                <option value="圆通" selected>圆通</option>
+                <option value="中通">中通</option>
+                <option value="韵达">韵达</option>
+                <option value="顺丰">顺丰</option>
+            </select>
+        </p>
+        <p>快递单号:<input name="dbwldh" id="dbwldh"></p>
+        <p><input type="button" name="btn1" id="btn1" value="提交"></p>
+    </form>
+    <p id="msg"></p>
+    <p><a href="fhzt.html">返回首页</a></p>
+</div>
+
+<script type="text/javascript" src="static/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="static/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="static/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="static/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="static/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+    $(()=>{
+        let dbid=localStorage.getItem("dbid")
+            $.ajax({
+                url:"derpatment/findByDbid/"+dbid,
+                type: "GET",
+                dataType: "json",
+                success:(data)=>{
+                    $("#dbid").val(data.dbid)
+                    $("#dbstate").val(data.dbstate)
+                    $("#dbwl").val(data.dbwl)
+                    $("#dbwldh").val(data.dbwldh)
+                }
+            })
+            localStorage.removeItem("dbid")
+    })
+
+
+    $("#btn1").click(()=>{
+        let dbid=$("#dbid").val()
+        let obj={'_method':"put",'dbstate':$("#dbstate").val(),'dbwl':$("#dbwl").val(),'dbwldh':$("#dbwldh").val()}
+        $.ajax({
+            url:"derpatment/dispatchbill/"+dbid,
+            type:"POST",
+            data:obj,
+            dataType:"json",
+            success:(data)=>{
+                if (data.result>0){
+                   location.href="fhzt.html"
+                }
+            }
+        })
+    })
+
+</script>
+</body>
