@@ -6,7 +6,15 @@ public class Supplier implements Serializable {
     private int sid;
     private String sname;
     private String saddress;
+    private int pid;
 
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
     public int getSid() {
         return sid;
     }

@@ -6,7 +6,15 @@ public class Derpatment implements Serializable {
     private int dpid;
     private String dpname;
     private String dpaddress;
+    private int pid;
 
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
     public int getDpid() {
         return dpid;
     }

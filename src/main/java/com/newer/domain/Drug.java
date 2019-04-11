@@ -23,6 +23,7 @@ public class Drug implements Serializable {
     private Date dreportdate;
     private Supplier supplier;
 
+
     public int getDid() {
         return did;
     }

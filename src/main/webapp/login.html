@@ -30,19 +30,26 @@
             <div class="row cl">
                 <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
                 <div class="formControls col-xs-8">
-                    <input id="pwd" type="password" placeholder="密码" class="input-text size-L">
+                    <input id="password" type="password" placeholder="密码" class="input-text size-L">
                 </div>
             </div>
             <div class="row cl">
                 <div class="formControls col-xs-8 col-xs-offset-3">
-                    <input id="code" class="input-text size-L" type="text" placeholder="验证码"  style="width:150px;">
-                    <img id="codeImage" src="securityCode"> <a id="kanbuq" href="javascript:changeImage();">看不清，换一张</a> </div>
+                    <select name="pstate" id="pstate">
+                        <option value="-1">请选择登录身份</option>
+                        <option value="1">卫生室</option>
+                        <option value="2">供货商</option>
+                        <option value="3" >卫生局</option>
+                        <option value="0">系统管理员</option>
+                    </select>
+                     </div>
             </div>
 
             <div class="row cl">
                 <div class="formControls col-xs-8 col-xs-offset-3">
-                    <input id="btnLogin" type="button" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+                    <input id="btn1" type="button" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
                     <input name="" type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
+
                 </div>
             </div>
         </form>
@@ -54,42 +61,28 @@
 <script type="text/javascript" src="static/layer/2.4/layer.js"></script>
 <script type="text/javascript">
     $(()=>{
-        $("#btnLogin").click(()=>{
-        var username=$("#username").val()
-        var pwd=$("#pwd").val()
-        var code=$("#code").val()
-        if(!username){
-        layer.alert("请填写用户名",{icon: 5,time:2000})
-        return
-    }
-    if(!pwd){
-        layer.alert("请填写密码",{icon: 5,time:2000})
-        return
-    }
-    if(!code){
-        layer.alert("请填写验证码",{icon: 5,time:2000})
-        return
-    }
-    $.ajax({
-        url:"user",
-        data:{username:username,pwd:pwd,code:code},
-        dataType:"json",
-        success:function(data){
-            if(data.suc){
-                location.href="index.html"
-            }else{
-                layer.msg(data.msg,{icon: 5,time:2000})
-                changeImage()
-            }
-        }
-    })
-    })
+
+        $("#btn1").click(()=>{
+            let username=$("#username").val()
+            let password=$("#password").val()
+            let pstate=$("#pstate").val()
+            $.ajax({
+                url:"login111",
+                data:{username:username,password:password,pstate:pstate},
+                success:function (data) {
+
+                    if (data){
+                        location.href="index.html"
+                    }else {
+                        layer.msg("账号或密码错误",{icon: 5,time:2000})
+                    }
+                }
+
+            })
+        })
 
     })
 
-    function changeImage(){
-        $("#codeImage").attr("src","securityCode?"+Math.random())
-    }
 </script>
 </body>
 </html>
