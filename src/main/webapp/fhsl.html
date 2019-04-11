@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="Bookmark" href="/favicon.ico" >
+    <link rel="Shortcut Icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="static/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+
+    <title>发货受理</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 发货受理 <span class="c-gray en">&gt;</span> 发货受理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <input type="button"  class="input-text" style="width:250px" id="newfhd" value="新建发货单">
+    <table class="table table-border table-bordered table-bg" id="usertable">
+        <thead>
+        <tr>
+            <th scope="col" colspan="9">未发货列表</th>
+        </tr>
+        <tr class="text-c">
+
+            <th width="40">药品名</th>
+            <th width="150">数量</th>
+            <th width="90">总价</th>
+            <th width="150">卫生服务站名</th>
+            <th width="150">收货地址</th>
+
+            <th width="100">添加到发货单</th>
+        </tr>
+        </thead>
+        <tbody id="userlist">
+
+        </tbody>
+    </table>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="static/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="static/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="static/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="static/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="static/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+    var pid=localStorage.getItem("pid")
+    console.log(pid)
+    $(()=>{
+        $.ajax({
+            url: "findsid",
+            data:{pid:pid},
+            success:function (data) {
+                var sid=data
+                console.log(sid)
+                localStorage.setItem("sid",sid)
+
+            }
+        })
+        $.ajax({
+            url:"fahuoqinqiu",
+            data:{pid:pid},
+            dataType:"json",
+            success:function (data) {
+
+                $("#userlist").empty()
+                data.forEach((d)=>{
+                    var $tr=`<tr class="text-c">
+						<td>${d.drugItem.drug.dname}</td>
+						<td>${d.drugItem.diquantity}</td>
+						<td>${d.drugItem.disumprice}</td>
+						<td>${d.drugItem.drugList.clinic.cname}</td>
+						<td>${d.drugItem.drugList.clinic.caddress}</td>
+
+
+						<td class="td-status"><span class="label label-success radius"><a href="javascript:;" onclick="admin_fhd('分配床位','findallfhbd.html','${d.drugItem.diid}','800','500')">添加到发货单</a></span></td>
+
+					</tr>`
+                    $("#userlist").append($tr)
+
+
+
+                })
+            }
+        })
+    })
+
+    $("#newfhd").click(()=>{
+        var sid=localStorage.getItem("sid")
+        $.ajax({
+            url:"createfhd",
+            data:{sid:sid},
+            success:function (data) {
+                alert("新建成功")
+            }
+        })
+
+
+    })
+
+    function admin_fhd(title,url,diid,w,h){
+        //使用浏览器本地缓存保存userid值
+
+        localStorage.setItem("diid",diid)
+        layer_show(title,url,w,h);
+    }
+</script>
+</body>
+</html>

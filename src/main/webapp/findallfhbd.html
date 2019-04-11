@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="static/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+
+    <title>选择发货单</title>
+</head>
+<body>
+<article class="page-container">
+    <form class="form form-horizontal" id="form-admin-add">
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>选择发货单：</label>
+
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal" id="userlist" name="userlist">
+
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                数量<input id="dbiquantity">
+                <br>
+                <input class="btn btn-primary radius" type="button" onClick="change()" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                <input class="btn btn-primary radius" type="button" onClick="change1()" value="&nbsp;&nbsp;返回&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="static/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/layer/2.4/layer.js"></script>
+<script src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+
+<script src="static/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script src="static/jquery.validation/1.14.0/validate-methods.js"></script>
+<script src="static/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+    var sid=localStorage.getItem("sid")
+
+    var diid=localStorage.getItem("diid")
+
+console.log(sid,diid)
+    $(()=>{
+
+        $.ajax({
+            url:"findAllfhd",
+            data:{sid:sid},
+            dataType:"json",
+            success:function(data){
+                $("#userlist").empty()
+                //遍历用户列表数组
+                data.forEach((bed)=>{
+                    var $tr=`<div class="radio-box">
+					<input name="bedNo" type="radio" id="${bed.dbid}" value="${bed.dbid}" >
+					<label for="${bed.dbid}">${bed.dbid}</label>
+				</div>`
+
+                    $("#userlist").append($tr)
+                })
+            }
+        })
+
+    })
+
+    function change(){
+
+        var dbid=$("input:checked").val()
+        var dbiquantity=$("#dbiquantity").val()
+        console.log(dbid,diid,dbiquantity)
+        $.ajax({
+
+            url:"adddbi",
+            data:{dbid:dibid,diid:diid,dbiquantity:dbiquantity},
+            dataType:"json",
+            success:function(data){
+                if(data){
+                    layer.msg('添加成功!',{icon: 6,time:1000});
+                    //获取当前弹窗的层编号
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //间隔1000毫秒后关闭弹窗
+                    setTimeout(function(){parent.layer.close(index);},1000,300,400);
+                }
+            }
+        })
+        localStorage.removeItem("diid")
+
+    }
+
+    function change1() {
+        location.href="fhsl.html"
+    }
+
+
+
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
