@@ -8,7 +8,7 @@ public class Dispatchbill implements Serializable {
     private Supplier supplier;
     private int sid;
     private String dbstate;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:MM:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
     private Date dbdate;
     private String dbwl;
     private String dbwldh;
